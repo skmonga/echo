@@ -647,6 +647,7 @@ def on_message(client, userdata, msg):
             print methodName
             i += 1
     publish_payload = json.dumps(datagram)
+    print publish_payload
     mqttpublish.single(payload['ackTopic'], publish_payload, 2, hostname = mqttHost, port = 1883,
                        client_id=payload['resourceId'])
     #print methods[0]['methodName']
@@ -654,8 +655,8 @@ def on_message(client, userdata, msg):
 
 
 def get_client(broker, topic, kafka_ip):
-    client = mqtt.Client()
-    #client = mqtt.Client(client_id=topic)
+    #client = mqtt.Client()
+    client = mqtt.Client(client_id='Client-' + topic , clean_session=False)
     client.on_connect = on_connect
     client.on_message = on_message
     global mqttHost
